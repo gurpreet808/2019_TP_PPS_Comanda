@@ -1,7 +1,6 @@
 export class Usuario {
-    id: number;
-    correo: string;
-    clave: string;
-    perfil: string;
-    sexo: string;
-  }
+  nombre: string;
+  apellido: string;
+  dni: string;
+  foto: string;
+}

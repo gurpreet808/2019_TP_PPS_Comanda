@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Usuario } from '../clases/usuario';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ export class UsuarioService {
   el_usuario: Usuario;
   public iud = new BehaviorSubject(false);
 
-  constructor(public afAuth: AngularFireAuth) { 
+  constructor(public afAuth: AngularFireAuth, public db: AngularFireDatabase, public toastCtrl: ToastController) { 
 
   }
 
@@ -20,6 +22,8 @@ export class UsuarioService {
       let resultado = await this.afAuth.auth.signInWithEmailAndPassword(correo, clave);
       this.logueado.next(true);
       console.log(resultado.user.uid);
+
+      this.traerDatosDelUsuario(resultado.user.uid);
 
     } catch (error) {
       console.log(error.code);
@@ -32,8 +36,18 @@ export class UsuarioService {
     }
   }
 
-  traerDatosDelUsuario(iud: string){
-
+  traerDatosDelUsuario(uid: string){
+    try {
+      let usuarioQuery = this.db.object('/usuarios/'+uid).valueChanges().subscribe(
+        (usuario: Usuario) => {
+          this.el_usuario = usuario;
+          console.log(this.el_usuario);
+          usuarioQuery.unsubscribe();
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   logout() {
