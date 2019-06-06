@@ -16,13 +16,25 @@ export class RegistrarsePage implements OnInit {
   public un_usuario: Usuario;
   showpass: boolean = false;
   //showpass2: boolean = false;
+
+  perfiles = [
+    "supervisor",
+    "empleado",
+    "mozo",
+    "cocinero",
+    "bartender",
+    "cliente",
+    "dueño"
+  ];
   
   constructor(db: AngularFireDatabase, public servUsuario: UsuarioService, private formBuilder: FormBuilder, public router:Router) { 
     this.registerForm = this.formBuilder.group({
+      nombre: ['', Validators.compose([Validators.maxLength(50), Validators.required])],
+      apellido: ['', Validators.compose([Validators.maxLength(50), Validators.required])],
+      dni: ['', Validators.compose([Validators.maxLength(8), Validators.required])],
+      cuil: ['', Validators.compose([Validators.maxLength(11), Validators.required])],
       correo: ['', Validators.compose([Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'), Validators.required])],
       clave: ['', Validators.compose([Validators.maxLength(20), Validators.required])],
-      //clave2: ['', Validators.compose([Validators.maxLength(20), Validators.required])],
-      sexo: ['', Validators.compose([Validators.required])],
       perfil: ['', Validators.compose([Validators.required])],
     });
   }
@@ -36,6 +48,12 @@ export class RegistrarsePage implements OnInit {
  }
 
   registrarme(){
+    this.un_usuario = this.registerForm.value;
+    this.servUsuario.registrarConEmail(this.un_usuario);
+  }
+
+  cargarSelectPerfiles(authActual: string){
+
   }
 
   iniciar_sesion(){

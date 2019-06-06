@@ -51,6 +51,40 @@ export class UsuarioService {
     }
   }
 
+  async registrarConEmail(usuario_: Usuario) {
+    try {
+      let resultado = await this.afAuth.auth.createUserWithEmailAndPassword(usuario_.correo, usuario_.clave);
+      console.log(resultado.user.uid);
+
+      this.registrar_datos_del_usuario(usuario_, resultado.user.uid);
+
+    } catch (error) {
+      console.log(error.code);
+      if (error.code == "auth/wrong-password") {
+        console.log("Clave incorrecta");
+      }
+    }
+  }
+
+  registrar_datos_del_usuario(un_usuario: Usuario, uid_: string){
+    delete un_usuario.clave;
+    delete un_usuario.correo;
+    
+    let itemsRef = this.db.object('usuarios/'+uid_);
+    itemsRef.set(un_usuario)
+    .then( 
+      datos => {
+        //console.log(datos);
+        console.log("Bien! Te registraste! Ahora podés iniciar sesión");
+      }
+    )
+    .catch(
+      err => {
+        console.log("Hubo un error inténtalo de nuevo...");
+      }
+    );
+  }
+
   traerDatosDelUsuario(uid: string){
     try {
       let usuarioQuery = this.db.object('/usuarios/'+uid).valueChanges().subscribe(
