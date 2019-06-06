@@ -43,11 +43,6 @@ export class AppComponent {
               title: 'Inicio',
               url: '/',
               icon: 'home'
-            },
-            {
-              title: 'Tabla',
-              url: '/tabla',
-              icon: 'happy'
             }
           ];
         }
@@ -73,6 +68,6 @@ export class AppComponent {
   }
 
   salir(){
-    //this.servUsuario.cerrar_sesion();
+    this.servUsuario.logout();
   }
 }

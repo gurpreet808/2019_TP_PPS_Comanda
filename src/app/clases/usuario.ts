@@ -1,7 +1,10 @@
 export class Usuario {
-    id: number;
-    correo: string;
-    clave: string;
-    perfil: string;
-    sexo: string;
-  }
+  nombre: string;
+  apellido: string;
+  dni?: number;
+  cuil?: number;
+  correo?: string;
+  clave?: string;
+  perfil?: string;
+  foto: string;
+}
