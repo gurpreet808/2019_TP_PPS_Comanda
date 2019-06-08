@@ -59,11 +59,12 @@ export class AppComponent {
   estilo_app(): object{
     if(this.splash){
       let estilo_splash = {
-        "background-color": "#6bfc77"
+        "background-color": "#ea1b23",
       };
 
       return estilo_splash;
     }
+
     return {};
   }
 
