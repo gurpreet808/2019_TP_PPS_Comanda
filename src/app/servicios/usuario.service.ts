@@ -27,6 +27,7 @@ export class UsuarioService {
       (authState) =>{
         if (authState) {
           this.logueado.next(true);
+          this.traerDatosDelUsuario(authState.uid);
         } else {
           this.logueado.next(false);
         }
